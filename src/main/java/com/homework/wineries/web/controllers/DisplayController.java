@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DisplayController {
     @GetMapping
     public String DisplayPage(Model model){
-        model.addAttribute("Display","Helou");
+        model.addAttribute("Display","Aubau");
         return "MainDisplay";
     }
 }
