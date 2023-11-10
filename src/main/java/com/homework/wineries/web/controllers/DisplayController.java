@@ -1,11 +1,9 @@
 package com.homework.wineries.web.controllers;
 
 import com.homework.wineries.web.Pipe;
-import com.homework.wineries.web.filters.HandleReviewsFilter;
-import com.homework.wineries.web.filters.ReadLineFilter;
+import com.homework.wineries.web.filters.RemoveDuplicatesFilter;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import org.springframework.asm.Handle;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 @Controller
 @RequestMapping({"/"})
@@ -42,11 +39,9 @@ public class DisplayController{
         Pipe<String[]> pipe = new Pipe<>();
 
         //Filters initialization
-        ReadLineFilter readLineFilter = new ReadLineFilter();
-        HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
+        RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
 
-        pipe.addFilter(readLineFilter);
-//            pipe.addFilter(handleReviewsFilter);
+        pipe.addFilter(removeDuplicatesFilter);
 
         for(String[] Row : allRows){
             String[] result = pipe.runFilters(Row);
