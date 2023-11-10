@@ -24,7 +24,7 @@ public class DisplayController{
     public String displayPage(Model model) throws IOException {
         List<String> linesList = new ArrayList<>();
 
-        // Use ClassPathResource to obtain a File object from a relative path
+        // Use ClassPathResource to obtain a File object from a relative path fixed
         File file = new ClassPathResource("wineries_final.csv").getFile();
 
         try (Scanner scanner = new Scanner(file)) {
