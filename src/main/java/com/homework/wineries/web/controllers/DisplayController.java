@@ -1,8 +1,11 @@
 package com.homework.wineries.web.controllers;
 
-import com.homework.wineries.WineriesApplication;
 import com.homework.wineries.web.Pipe;
+import com.homework.wineries.web.filters.HandleReviewsFilter;
 import com.homework.wineries.web.filters.ReadLineFilter;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+import org.springframework.asm.Handle;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,26 +24,35 @@ import java.util.Scanner;
 @RequestMapping({"/"})
 public class DisplayController{
 
+    private static List<String[]> parseCsv(String filePath) throws IOException, CsvException {
+        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+            return reader.readAll();
+        }
+    }
     @GetMapping
-    public String displayPage(Model model) throws IOException {
-        List<String> linesList = new ArrayList<>();
+    public String displayPage(Model model) throws IOException, CsvException {
+
+        List<String[]> linesList = new ArrayList<>();
 
         // Use ClassPathResource to obtain a File object from a relative path fixed
         File file = new ClassPathResource("wineries_final.csv").getFile();
+        String csvFilePath = file.getAbsolutePath();
 
-        try (Scanner scanner = new Scanner(file)) {
-            Pipe<String> pipe = new Pipe<>();
-            ReadLineFilter readLineFilter = new ReadLineFilter();
-            pipe.addFilter(readLineFilter);
+        List<String[]> allRows = parseCsv(csvFilePath);
+        Pipe<String[]> pipe = new Pipe<>();
 
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String result = pipe.runFilters(line);
-                linesList.add(result);
-            }
+        //Filters initialization
+        ReadLineFilter readLineFilter = new ReadLineFilter();
+        HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
+
+        pipe.addFilter(readLineFilter);
+//            pipe.addFilter(handleReviewsFilter);
+
+        for(String[] Row : allRows){
+            String[] result = pipe.runFilters(Row);
+            linesList.add(result);
         }
-
-        model.addAttribute("DisplayLines", linesList);
+        model.addAttribute("DisplayLines", linesList.stream().flatMap(Arrays::stream).toArray(String[]::new));
 
         return "MainDisplay";
     }}
