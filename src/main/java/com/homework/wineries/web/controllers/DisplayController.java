@@ -46,7 +46,7 @@ public class DisplayController{
         HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
 
         pipe.addFilter(readLineFilter);
-//            pipe.addFilter(handleReviewsFilter);
+        pipe.addFilter(handleReviewsFilter);
 
         for(String[] Row : allRows){
             String[] result = pipe.runFilters(Row);
