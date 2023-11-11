@@ -20,6 +20,10 @@ public class RemoveDuplicatesFilter implements IFilter<String[]> {
         }
         previousNames.add(input[2]);
 
+        if (!input[0].equals("ID")) {
+            input[0] = String.valueOf((long) previousIds.size() - 1);
+        }
+
         return input;
     }
 }
