@@ -1,6 +1,7 @@
 package com.homework.wineries.web.controllers;
 
 import com.homework.wineries.web.Pipe;
+import com.homework.wineries.web.filters.HandlePhoneNumbersFilter;
 import com.homework.wineries.web.filters.HandleReviewsFilter;
 import com.homework.wineries.web.filters.HandleWheelchairColumnFilter;
 import com.homework.wineries.web.filters.RemoveDuplicatesFilter;
@@ -38,16 +39,7 @@ public class DisplayController{
         String csvFilePath = file.getAbsolutePath();
 
         List<String[]> allRows = parseCsv(csvFilePath);
-        Pipe<String[]> pipe = new Pipe<>();
-
-        //Filters initialization
-        HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
-        HandleWheelchairColumnFilter handleWheelchairColumnFilter = new HandleWheelchairColumnFilter();
-        RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
-
-        pipe.addFilter(handleReviewsFilter);
-        pipe.addFilter(handleWheelchairColumnFilter);
-        pipe.addFilter(removeDuplicatesFilter);
+        Pipe<String[]> pipe = getPipe();
 
         for(String[] Row : allRows){
             String[] result = pipe.runFilters(Row);
@@ -56,4 +48,21 @@ public class DisplayController{
         model.addAttribute("DisplayLines", linesList.stream().flatMap(Arrays::stream).toArray(String[]::new));
 
         return "MainDisplay";
-    }}
+    }
+
+    private static Pipe<String[]> getPipe() {
+        Pipe<String[]> pipe = new Pipe<>();
+
+        //Filters initialization
+        HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
+        HandleWheelchairColumnFilter handleWheelchairColumnFilter = new HandleWheelchairColumnFilter();
+        HandlePhoneNumbersFilter handlePhoneNumbersFilter = new HandlePhoneNumbersFilter();
+        RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
+
+        pipe.addFilter(handleReviewsFilter);
+        pipe.addFilter(handleWheelchairColumnFilter);
+        pipe.addFilter(handlePhoneNumbersFilter);
+        pipe.addFilter(removeDuplicatesFilter);
+        return pipe;
+    }
+}
