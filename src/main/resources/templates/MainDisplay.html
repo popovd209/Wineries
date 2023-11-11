@@ -6,7 +6,7 @@
 </head>
 <body>
     <div th:block th:each="line : ${DisplayLines}">
-        <span style="white-space: nowrap; overflow-x: auto" class="main-info" th:text="${line}"></span><br/>
+        <span style="white-space: nowrap; overflow-x: auto" class="main-info" th:utext="${line}"></span><br/>
     </div>
 </body>
 </html>
