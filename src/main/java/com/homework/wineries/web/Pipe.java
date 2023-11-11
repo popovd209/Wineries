@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pipe<T> {
-    private List<IFilter<T>> filters = new ArrayList<>();
+    private final List<IFilter<T>> filters = new ArrayList<>();
 
     public void addFilter(IFilter<T> filter) {
         filters.add(filter);
