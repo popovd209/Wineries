@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 public class RemoveDuplicatesFilter implements IFilter<String[]> {
     HashSet<String> previousIds = new HashSet<>();
+    HashSet<String> previousNames = new HashSet<>();
 
     @Override
     public String[] execute(String[] input) {
@@ -13,6 +14,11 @@ public class RemoveDuplicatesFilter implements IFilter<String[]> {
             return new String[0];
         }
         previousIds.add(input[1]);
+
+        if(previousNames.contains(input[2])) {
+            return new String[0];
+        }
+        previousNames.add(input[2]);
 
         return input;
     }
