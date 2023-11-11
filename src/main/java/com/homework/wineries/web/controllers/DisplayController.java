@@ -38,9 +38,12 @@ public class DisplayController{
         List<String[]> allRows = parseCsv(csvFilePath);
         Pipe<String[]> pipe = getPipe();
 
-        for(String[] Row : allRows){
+        linesList.add(allRows.get(0));
+        for(String[] Row : allRows.subList(1, allRows.size())){
             String[] result = pipe.runFilters(Row);
-            linesList.add(result);
+
+            if(!Arrays.stream(result).allMatch(String::isEmpty))
+                linesList.add(result);
         }
         model.addAttribute("DisplayLines", linesList.stream().flatMap(Arrays::stream).toArray(String[]::new));
 
@@ -59,6 +62,7 @@ public class DisplayController{
         HandleWebsitesFilter handleWebsitesFilter = new HandleWebsitesFilter();
         RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
         WorkingHoursFilter workingHoursFilter = new WorkingHoursFilter();
+        WheelchairAccesibleFilter wheelchairAccesibleFilter = new WheelchairAccesibleFilter();
 
         pipe.addFilter(handlePhoneNumbersFilter);
         pipe.addFilter(handleReviewsFilter);
@@ -66,6 +70,7 @@ public class DisplayController{
         pipe.addFilter(handleTypesColumnFilter);
         pipe.addFilter(handleWebsitesFilter);
         pipe.addFilter(workingHoursFilter);
+        pipe.addFilter(wheelchairAccesibleFilter);
         pipe.addFilter(removeDuplicatesFilter); //Must always be last!!!!
         return pipe;
     }
