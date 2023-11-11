@@ -1,10 +1,7 @@
 package com.homework.wineries.web.controllers;
 
 import com.homework.wineries.web.Pipe;
-import com.homework.wineries.web.filters.HandlePhoneNumbersFilter;
-import com.homework.wineries.web.filters.HandleReviewsFilter;
-import com.homework.wineries.web.filters.HandleWheelchairColumnFilter;
-import com.homework.wineries.web.filters.RemoveDuplicatesFilter;
+import com.homework.wineries.web.filters.*;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.core.io.ClassPathResource;
@@ -57,11 +54,13 @@ public class DisplayController{
         HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
         HandleWheelchairColumnFilter handleWheelchairColumnFilter = new HandleWheelchairColumnFilter();
         HandlePhoneNumbersFilter handlePhoneNumbersFilter = new HandlePhoneNumbersFilter();
+        HandleTypesColumnFilter handleTypesColumnFilter = new HandleTypesColumnFilter();
         RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
 
         pipe.addFilter(handleReviewsFilter);
         pipe.addFilter(handleWheelchairColumnFilter);
         pipe.addFilter(handlePhoneNumbersFilter);
+        pipe.addFilter(handleTypesColumnFilter);
         pipe.addFilter(removeDuplicatesFilter);
         return pipe;
     }
