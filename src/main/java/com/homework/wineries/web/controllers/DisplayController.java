@@ -55,12 +55,14 @@ public class DisplayController{
         HandleWheelchairColumnFilter handleWheelchairColumnFilter = new HandleWheelchairColumnFilter();
         HandlePhoneNumbersFilter handlePhoneNumbersFilter = new HandlePhoneNumbersFilter();
         HandleTypesColumnFilter handleTypesColumnFilter = new HandleTypesColumnFilter();
+        HandleWebsitesFilter handleWebsitesFilter = new HandleWebsitesFilter();
         RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
 
         pipe.addFilter(handleReviewsFilter);
         pipe.addFilter(handleWheelchairColumnFilter);
         pipe.addFilter(handlePhoneNumbersFilter);
         pipe.addFilter(handleTypesColumnFilter);
+        pipe.addFilter(handleWebsitesFilter);
         pipe.addFilter(removeDuplicatesFilter);
         return pipe;
     }
