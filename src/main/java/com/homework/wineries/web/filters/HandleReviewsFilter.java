@@ -40,12 +40,16 @@ public class HandleReviewsFilter implements IFilter<String[]> {
         } catch (Exception e) {
 //            e.printStackTrace();
             // 36 reviews perish here in this black hole due to bad format unable to fix it with code
+            //Must fix this try separation by {} or smth
         }
         return formattedReviews;
     }
     @Override
     public String[] execute(String[] input) {
-        input[12] = parseJson(fixJson(input[12])).toString();
+        if(!input[12].equals("[]"))
+            input[12] = parseJson(fixJson(input[12])).toString().replace("[","").replace("]","");
+        else
+            input[12] = "Not found";
         return input;
     }
 }

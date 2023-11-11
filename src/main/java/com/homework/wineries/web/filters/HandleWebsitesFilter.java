@@ -11,13 +11,18 @@ public class HandleWebsitesFilter implements IFilter<String[]> {
             input[8] = input[8].replace("https://", "");
         }
 
-        if (input[8].startsWith("www.")) {
-            input[8] = input[8].replace("www.", "");
-        }
+//        if (input[8].startsWith("www.")) {
+//            input[8] = input[8].replace("www.", "");
+//        }
 
         if (input[8].endsWith("/")) {
             input[8] = input[8].substring(0, input[8].length() - 1);
         }
+
+        if(!input[8].isEmpty() && !input[8].contains("www."))
+            input[8] = "www."+input[8];
+        else
+            input[8] = "Not found";
 
         return input;
     }

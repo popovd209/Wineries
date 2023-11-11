@@ -51,19 +51,22 @@ public class DisplayController{
         Pipe<String[]> pipe = new Pipe<>();
 
         //Filters initialization
+        //This filter not really necessary column international phone number != phone number
+        HandlePhoneNumbersFilter handlePhoneNumbersFilter = new HandlePhoneNumbersFilter();
         HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
         HandleWheelchairColumnFilter handleWheelchairColumnFilter = new HandleWheelchairColumnFilter();
-        HandlePhoneNumbersFilter handlePhoneNumbersFilter = new HandlePhoneNumbersFilter();
         HandleTypesColumnFilter handleTypesColumnFilter = new HandleTypesColumnFilter();
         HandleWebsitesFilter handleWebsitesFilter = new HandleWebsitesFilter();
         RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
+        WorkingHoursFilter workingHoursFilter = new WorkingHoursFilter();
 
+        pipe.addFilter(handlePhoneNumbersFilter);
         pipe.addFilter(handleReviewsFilter);
         pipe.addFilter(handleWheelchairColumnFilter);
-        pipe.addFilter(handlePhoneNumbersFilter);
         pipe.addFilter(handleTypesColumnFilter);
         pipe.addFilter(handleWebsitesFilter);
-        pipe.addFilter(removeDuplicatesFilter);
+        pipe.addFilter(workingHoursFilter);
+        pipe.addFilter(removeDuplicatesFilter); //Must always be last!!!!
         return pipe;
     }
 }
