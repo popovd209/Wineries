@@ -1,9 +1,11 @@
 package com.homework.wineries.web.controllers;
 
 import com.homework.wineries.web.Pipe;
+import com.homework.wineries.web.filters.HandleReviewsFilter;
 import com.homework.wineries.web.filters.RemoveDuplicatesFilter;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import org.springframework.asm.Handle;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,8 +41,10 @@ public class DisplayController{
         Pipe<String[]> pipe = new Pipe<>();
 
         //Filters initialization
+        HandleReviewsFilter handleReviewsFilter = new HandleReviewsFilter();
         RemoveDuplicatesFilter removeDuplicatesFilter = new RemoveDuplicatesFilter();
 
+        pipe.addFilter(handleReviewsFilter);
         pipe.addFilter(removeDuplicatesFilter);
 
         for(String[] Row : allRows){
