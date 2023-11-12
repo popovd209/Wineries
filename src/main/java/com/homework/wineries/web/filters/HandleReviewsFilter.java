@@ -25,11 +25,16 @@ public class HandleReviewsFilter implements IFilter<String[]> {
             String text = matcher.group(3).replace("\"", ""); // Remove escaped quotes
 //            String relativeTimeDescription = matcher.group(4);
 
+            if(rating.length()>2)
+                rating = rating.substring(0,1);
+            if(text.contains("relative_time_description"))
+                text=text.substring(0, text.indexOf("', 'relative_time_description'"));
+
             StringBuilder formattedReview = new StringBuilder();
             // Formatting the extracted information
-            formattedReview.append("Review Author: ").append(reviewAuthor).append("<br/>");
-            formattedReview.append("Rating: ").append(rating).append("<br/>");
-            formattedReview.append("Text: ").append(text).append("<br/>");
+            formattedReview.append("Review Author: ").append(reviewAuthor).append(" | <br/>");
+            formattedReview.append("Rating: ").append(rating).append(" | <br/>");
+            formattedReview.append("Text: ").append(text).append(" | <br/>");
 //            formattedReview.append("Relative Time Description: ").append(relativeTimeDescription).append("<br/>");
             formattedReview.append("------<br/>");
 
